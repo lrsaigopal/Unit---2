@@ -5,9 +5,15 @@ Unit---2
 
 Extension Of Unit 1 With Socket Programming
 
-To Run The Project Please Run Main.py File..
+To Run The Project Please Run Main.py File  To Setup The Database And Init The Server.
 
-Queries :
+
+Next Run Client.py And Continue .
+
+[All IP Set To LocalHost In The Version.Will Be Removed In The Final Version]
+
+
+Supported Queries Formats :
 
 1)select Company_Name from DB where Operating_Margin_Percentage > 20 And Revenue > 6000000000 And Quarter = Q1
 

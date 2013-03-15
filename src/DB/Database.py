@@ -9,12 +9,14 @@ import random
 def Rand_Gen(size, chars):
     return ''.join(random.choice(chars) for x in range(size))
 
-def Create_Rand_DB():
-        print"Enter file name with the path if in a different file:\n"
-        l=raw_input()
+def Create_Rand_DB(l='',a=0):
+        if l.__eq__(''):
+            print"Enter file name with the path if in a different file:\n" 
+            l=raw_input()
         f=open(l,'w')
-        print"Enter the number of companies to be put into dict:\n"
-        a=int(raw_input())
+        if a == 0:
+            print"Enter the number of companies to be put into dict:\n"
+            a=int(raw_input())
         e=["Company_Name : ","Ticker_Symbol : ","Eps : ","Revenue : ","S&M_Expenses : ","Service_Expenses : ","R&D_Expenses : ","Tax : ","Quarter : ","Year : "] 
         quarters=["Q1","Q2","Q3","Q4"]
         for k in range(a):
@@ -60,6 +62,7 @@ def Make_DB(a,line):
     return False
 
 def Display_DB(db,a=[]):
+    
     for i in range(db.__len__()):
         if a.__len__()!=0:
             for j in range(a.__len__()):

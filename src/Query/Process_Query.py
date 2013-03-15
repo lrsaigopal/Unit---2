@@ -207,7 +207,7 @@ def Pro_Query(Que, DB):
             strtemp=''
             
         if (NDB.__len__()==0):
-            print "Empty"
+            return "Empty Result!!!!!"
             exit(0)
         
         col_name=[]
@@ -248,9 +248,8 @@ def top(db,cname,num):
     
 def Rec_Query(Que,DB):
     if Validate_Query(Que) == 0:
-        print 'Query Entered is Incorrect!!!!!Exiting'
-        exit(1)
-    Pro_Query(Que,DB)
+        return 'Query Entered is Incorrect!!!!!'
+    return('\n\n>Result::\n')
     
 
 if __name__ == '__main__':

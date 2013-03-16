@@ -15,13 +15,13 @@ Next Run Client.py And Continue .
 
 Supported Queries Formats :
 
-1)select Company_Name from DB where Operating_Margin_Percentage > 20 And Revenue > 6000000000 And Quarter = Q1
+1)SELECT Company_Name FROM DB WHERE Operating_Margin_Percentage > 20 AND Revenue > 6000000000 AND Quarter = Q1
 
-2)select top ( Revenue , 3 ) , Company_Name from DB where Year = 1954
+2)SELECT TOP  ( Revenue , 3 )  Company_Name FROM DB WHERE Year = 1954 #fail
 
-3)select Company_Name , Eps from DB where Year = 1995
+3)SELECT Company_Name , Eps FROM DB WHERE Year = 1995
 
-4)select max ( R&D_Ratio , 1 ) , Company_Name from DB where Year = 1954
+4)SELECT MAX ( R&D_Ratio , 1 )  Company_Name FROM DB WHERE Year = 1954
 
-5)select Total_Expenses from DB where Ticker_Symbol = tzs And Quarter = Q1
+5)SELECT Total_Expenses FROM DB WHERE Ticker_Symbol = tzs AND Quarter = Q1
  

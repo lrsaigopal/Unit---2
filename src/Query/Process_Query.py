@@ -1,174 +1,298 @@
-'''
-Created on 16-Feb-2013
-
-@author: Sai Gopal,Dhiren,Rahul
-'''
 import copy
 from DB.Database import Remove_From_DB, Display_DB, Call_All, Sort_DB
 from DB import DB
 from Query.Adv_Process import Get_Query
+import sys 
 
+sting=""
 
-def Check_It(a):
-
-    import re    
-    re1='(select)'    # Word 1
-    re2='( )'    # White Space 1
-    re3='(.*)'    # select arguments
-    re4='( )'    # White Space 2
-    re5='(from)'    # Word 2
-    re6='( )'    # White Space 3
-    re7='(DB)'    # Word 3
-    re8='( )'    # White Space 4
-    re9='(where)'    # Word 4
-    re10='( )'    # White Space 5
-    re11='(.*)'    # where arguments
+def val_qry(a):#validation begins from here
+    global sting
+    b,pf,pw=chk_basic(a)
     
-    rg = re.compile(re1+re2+re3+re4+re5+re6+re7+re8+re9+re10+re11,re.IGNORECASE|re.DOTALL)
-    m = rg.search(a)
-    #check for select 8 from 8 where
-    if m:
-        word1=m.group(1)
-        ws1=m.group(2)
-        c1=m.group(3)
-        ws2=m.group(4)
-        word2=m.group(5)
-        ws3=m.group(6)
-        word3=m.group(7)
-        ws4=m.group(8)
-        word4=m.group(9)
-        ws5=m.group(10)
-        c2=m.group(11)
-        
-        s=c1.split()
-        #print c1
-        if s[0]!='top' and s[0]!='max' and s[0]!='min' :
-            #print 'came to check'
-            re23='(Company_Name|Ticker_Symbol|Year|Tax|Revenue|S&M_Expenses|Service_Expenses|R&D_Expenses|Quarter|Eps|Total_Expenses|Operating_Margin|Operating_Margin_Percentage|R&D_Ratio|Growth_Rate)'#select R&D_Ratio , Eps from DB where Quarter > 10|(Company_Name , )*|(Ticker_Symbol , )*|(Year , )*|(Eps , )*|(Operating_Margin_Percentage, )*|(Revenue , )*|(S&M_Expenses , )*|(Service_Expenses , )*|(R&D_Expenses , )*|(Quarter , )*|(Total_Expenses , )*|(Operating_Margin , )*|(R&D_Ratio , )*|(Growth_Rate , )*)'    # Word 1
-            
-            
     
-            rg = re.compile(re23,re.IGNORECASE|re.DOTALL)
-            mq = rg.search(c1)
-            if mq:
-                pass
-            else :
-                return 0
-        else :
-            re12='(top|Max|Min)'    # for top or max or min
-            re13='( )'    # White Space 1
-            re14='(\\()'    # Any Single Character 1
-            re15='( )'    # White Space 2
-            re16='(Company_Name|Ticker_Symbol|Year|Eps|Tax|Revenue|S&M_Expenses|Service_Expenses|R&D_Expenses|Quarter|Total_Expenses|Operating_Margin|Operating_Margin_Percentage|R&D_Ratio|Growth_Rate)'    # Word 2
-            re17='( )'    # White Space 3
-            re18='(,)'    # Any Single Character 2
-            re19='( )'    # White Space 4
-            re20='((?:[0-9]*))'    # Variable Name 1
-            re21='( )'    # White Space 5
-            re22='(\\))'    # Any Single Character 3
-            
-            rq = re.compile(re12+re13+re14+re15+re16+re17+re18+re19+re20+re21+re22,re.IGNORECASE|re.DOTALL)
-            m = rq.search(c1)
-            if m:
-            #    print 'wd'
-                pass
-            else :
-                return 0
-        t=c2.split()
-        p=len(t)
-        i=0
-        true=1
-        while i <p :
-            if t[i]=='And' :
-                true=0
-                break
-            i=i+1          
-        if true == 0 :
-            
+    m=a.split()
+    n=len(m)
+    c=appnd(m,0,pf)
     
-            
-    
-            #re35='( )'
-            re30='(.*)'    # before and
-            re31='( )'    # White Space 1
-            re32='(And)'    # Word 1
-            re33='( )'    # White Space 2
-            re34='(.*)'    # after and
-            
-    
-            rg = re.compile(re30+re31+re32+re33+re34,re.IGNORECASE|re.DOTALL)
-            s = rg.search(c2)
-            
-            if s:
-                    q=s.group(1)
-                    ws1=s.group(2)
-                    word1=s.group(3)
-                    ws2=s.group(4)
-                    d=s.group(5)
-                    #print "("+q+")"+"("+ws1+")"+"("+word1+")"+"("+ws2+")"+"("+d+")"+"\n"
-                    re25='(Company_Name|Ticker_Symbol|Year|Tax|Eps|Revenue|S&M_Expenses|Service_Expenses|R&D_Expenses|Quarter|Total_Expenses|Operating_Margin|Operating_Margin_Percentage|R&D_Ratio|Growth_Rate)'    # Word 1
-                    re26='( )'    # White Space 1
-                    re27='(>|<|>=|<=|=|!=)'    # Any Single Character 1
-                    re28='( )'    # White Space 2
-                    re29='([a-zA-Z0-9]+)'    # Integer Number 1
-        
-                    rg = re.compile(re25+re26+re27+re28+re29,re.IGNORECASE|re.DOTALL)
-                    f = rg.search(q)
-                    v = rg.search(d)
-                    if f and v :
-                        #print 'regex is correct'
-                        return 1
+    if b!=0 :
+        d=chk_sel(c)
+        if d!=0 :
+            e=chk_from(m,pf)
+            if e!=0:
+                f=appnd(m,pw,n)
+                
+                g,conf=numand(f)
+                if conf > 0 :
+                    if g > 0 :
+                        h=chck_where(f,g)
+                        return h
                     else :
-                        return 0
-            else :
+                        h=chk_args2(f)
+                        return h
+                        
+                else :
                     return 0
-    
-    
+                
         else :
-    
-            re25='(Company_Name|Ticker_Symbol|Year|Eps|Tax|Revenue|S&M_Expenses|Service_Expenses|R&D_Expenses|Quarter|Total_Expenses|Operating_Margin|Operating_Margin_Percentage|R&D_Ratio|Growth_Rate)'    # Word 1
-            re26='( )'    # White Space 1
-            re27='(>|<|>=|<=|=|!=)'    # Any Single Character 1
-            re28='( )'    # White Space 2
-            re29='([a-zA-Z0-9]+)'    # Integer Number 1
-    
-            rg = re.compile(re25+re26+re27+re28+re29,re.IGNORECASE|re.DOTALL)
-            x = rg.search(c2)
-            if x:
-                    word1=x.group(1)
-                    ws1=x.group(2)
-                    c1=x.group(3)
-                    ws2=x.group(4)
-                    int1=x.group(5)
-                    
-                    return 1
-            
-    
-            else :
-                return 0
-    
-    
-    
-    
-         
-    else : 
+            return 0
+    else :
         return 0
+    return e
 
+def numand(a):
+    global sting
+    n=len(a)
+    x=0
+    b=0
+    z=0
+    pos=[]
+    
+    while x < n :
+        if a[x].lower()=='and' :
+            b=b+1
+            pos.append(x)
+        x=x+1
+    
+    if b > 0 :
+        
+        while z < b :
+            
+            if a[pos[z]] != 'AND' :
+                
+                sting=sting+'and not caps'
+                return 0,0
+            
+            z=z+1
+        return b,1
+    else :
+        
+        return b,1
+            
+def chck_where(a,b):  
+            global sting          
+            x=0
+            z=0
+           # print a
+            while z < b+1 :
+                
+                c=appnd(a,x-1,x+3)
+                h=chk_args2(c)
+                if h == 0 :
+                    sting=sting+'error in arguments of where'
+                    return 0
+                x=x+4
+                z=z+1
+            return 1
+        
+        
+def chk_args2(a):
+    global sting
+    n=len(a)
+    x=0
+    ret=0
+    
+    if (a[x] == 'Company_Name' or a[x] == 'Ticker_Symbol' or a[x] == 'Operating_Margin_Percentage' or a[x] == 'Year' or a[x] == 'Tax' or a[x] == 'Revenue' or a[x] == 'S&M_Expenses' or a[x] == 'Service_Expenses' or a[x] == 'R&D_Expenses' or a[x] == 'Quarter' or a[x] == 'Eps' or a[x] == 'Total_Expenses' or a[x] == 'Operating_Margin' or a[x] == 'Ratio' or a[x] == 'Growth_Rate') and (a[x+1]=='>' or a[x+1]=='>=' or a[x+1]=='<' or a[x+1]=='<=' or a[x+1]=='=' or a[x+1]=='!=') and a[x+2].isalnum() :
+        ret=1
+    else :
+        sting=sting+'wrong argument2'
+        return 0
+            
+    return ret
+   
+def appnd(a,b,c):#custom append function list name, start index ,stop index
+    global sting
+    x=b+1
+    d=[]
+    while x < c :
+        d.append(a[x])
+        x=x+1
+    return d
+
+def chk_basic(a):#check slect * from * where *
+    global sting
+    c=a.split()
+    d=len(c)
+    #print c
+    e,pf,pw=chk_pos1(c,d)
+    #print e
+    if e==1 :
+       
+            return 1,pf,pw
+        
+    else :
+        sting=sting+'syntax u entered is error'
+        return 0,0,0
+            
+def chk_pos1(c,d):#make sure select > from > where is order followed   
+    global sting
+    str1='SELECT'
+    str2='FROM'
+    str3='WHERE'
+    x=0
+    pf=0
+    pw=0
+    while x < d :
+        if c[x].lower()==str2.lower() :
+            pf=x
+        if c[x].lower()==str3.lower() :
+            pw=x
+        x=x+1
+    if pf == 0 :
+        sting=sting+"no from present"
+        return 0,0,0
+    if pw == 0 :
+        sting=sting+"no where present"
+        return 0,0,0
+    if pw < pf :
+        sting=sting+'wrong format for is after where'
+        return 0,0,0
+    if pf == 0 or pf < 2 :
+        sting=sting+'no argument for select or select is not present'
+        return 0,0,0
+    if (pf+2) != pw :
+        print pf
+        print pw
+        sting=sting+'no argument for from'
+        return 0,0,0
+    if c[0] != str1 :
+        sting=sting+'select not in capitals'
+        return 0,0,0
+    
+    
+    if c[pf] != str2 :
+            sting=sting+'for not in capitals'
+            return 0,0,0
+    
+    if c[pw] != str3 :
+            sting=sting+'where not in capitals'
+            return 0,0,0
+    return 1,pf,pw#exit
+          
+def chk_sel(a):#check contents of select
+    global sting
+    n=len(a)
+    x=n
+    if a[0].upper()=='TOP' :
+        return chk_top(a,x)
+    elif a[0].upper()=='MAX' :
+        return chk_max(a,x)
+    elif a[0].upper()=='MIN' :
+        return chk_min(a,x)
+    else :
+        return chk_args(a)
+ 
+def chk_args(a):#checks arguments given
+    global sting
+    n=len(a)
+    x=0
+    ret=0
+    
+    
+    if a[0] != '*' :
+        while x < n :
+            if (a[x] == 'Company_Name' or a[x] == 'Operating_Margin_Percentage' or a[x] == 'Eps'or a[x] == 'Ticker_Symbol' or a[x] == 'Year' or a[x] == 'Tax' or a[x] == 'Revenue' or a[x] == 'S&M_Expenses' or a[x] == 'Service_Expenses' or a[x] == 'R&D_Expenses' or a[x] == 'Quarter' or a[x] == 'Total_Expenses' or a[x] == 'Operating_Margin' or a[x] == 'Ratio' or a[x] == 'Growth_Rate' and a[x+1]==','):
+                ret=1
+            else :
+                sting=sting+'wrong argument'
+                return 0
+            x=x+2
+    else :
+        ret=1
+    return ret 
+           
+
+def chk_top(a,n):#check conetnts of top
+    global sting
+    x=n
+    if a[0]== 'TOP' :
+        if a[1] == '(' and (a[2]=='CNAME' or a[2]=='TOTAL_EXPENSES' or a[2]=='OPERATING_MARGIN' or a[2]=='OPERATING_MARGIN_PERCENTAGE' or a[2]=='RATIO' or a[2]=='GROWTH_RATE' or a[2]=='Revenue' ) and a[3]==',' :
+            b=a[4]
+            if b.isdigit() :
+                if a[5]==')' :
+                    return 1
+                else :
+                    sting=sting+'mistake in closing )'
+                    return 0
+            else :
+                sting=sting+'wrong type'
+                return 0
+        else :
+            sting=sting+'error in initial part'
+            return 0   
+    else :
+        sting=sting+'top not in caps'
+        return 0
+        
+def chk_max(a,n):#check contents of max
+    global sting
+    x=n
+    if a[0]== 'MAX' :
+        if a[1] == '(' and (a[2]=='CNAME' or a[2]=='TOTAL_EXPENSES' or a[2]=='OPERATING_MARGIN' or a[2]=='OPERATING_MARGIN_PERCENTAGE' or a[2]=='RATIO' or a[2]=='GROWTH_RATE' or a[2]=='R&D_Ratio' ) and a[3]==',' :
+            b=a[4]
+            if b.isdigit() :
+                if a[5]==')' :
+                    return 1
+                else :
+                    sting=sting+'mistake in closing )'
+                    return 0
+            else :
+                sting=sting+'wrong type'
+                return 0
+        else :
+            sting=sting+'error in initial part'
+            return 0   
+    else :
+        sting=sting+'MAX not in caps'
+        return 0
+    
+def chk_min(a,n):#check contents of min
+    global sting
+    x=n
+    if a[0]== 'MIN' :
+        if a[1] == '(' and (a[2]=='CNAME' or a[2]=='TOTAL_EXPENSES' or a[2]=='OPERATING_MARGIN' or a[2]=='OPERATING_MARGIN_PERCENTAGE' or a[2]=='RATIO' or a[2]=='GROWTH_RATE') and a[3]==',' :
+            b=a[4]
+            if b.isdigit() :
+                if a[5]==')' :
+                    return 1
+                else :
+                    sting=sting+'mistake in closing )'
+                    return 0
+            else :
+                sting=sting+'wrong type'
+                return 0
+        else :
+            sting=sting+'error in initial part'
+            return 0   
+    else :
+        sting=sting+'MIN not in caps'
+        return 0
+ 
+def chk_from(a,pf) :#check from value
+    global sting
+    #print a[pf+1]
+    if a[pf+1] != 'DB' :
+        sting=sting+'wrong database'
+        return 0
+    else :
+        return 1
+ 
 def Validate_Query(Que):
-    #return 1
-    return Check_It(Que)
-
-
+    b=val_qry(Que)#begin validation
+    if b==1:
+        return ''
+    else :
+        return sting
 def Pro_Query(Que, DB):
     NDB=copy.deepcopy(DB)
     NDB=Call_All(NDB)
     temp = Que.split(' ')
     
-    if temp.count('where') != 0:
+    if temp.count('WHERE') != 0:
         x=0
         n=len(temp)
         while x<n :
-                if temp[x]=='where' :
+                if temp[x]=='WHERE' :
                         break
                 x=x+1
         
@@ -181,14 +305,14 @@ def Pro_Query(Que, DB):
         count=0
         z=0
         i=i+2
-        countand=temp.count('And')+1
+        countand=temp.count('AND')+1
         
         for p in range(countand):
             diffq.append([])
  
         n=len(temp)
         while (z+i)<n :
-                if temp[z+i]!='And' :
+                if temp[z+i]!='AND' :
                     diffq[count].append(temp[z+i])
                 else:
                     count=count+1
@@ -213,29 +337,35 @@ def Pro_Query(Que, DB):
         col_name=[]
         i=1
         for i in range(common.__len__()):
-            if common[i] !='from':
+            if common[i] !='FROM':
                 col_name.append(common[i])
             else:
                 break
         col_name.pop(0)
         
-        k=col_name.count(',')
-        for i in range(k):
-            col_name.remove(',')
-        if col_name[0]!="top" and col_name[0]!="max":
-            Display_DB(NDB,col_name)
-        else:
-            if col_name[0]=="top":
-                NDB=top(NDB,col_name[2],int(col_name[3]))
-                for i in range(5):
+        if col_name[0] == '*':
+            Display_DB(NDB)
+        
+        else :
+            k=col_name.count(',')
+            for i in range(k):
+                col_name.remove(',')
+            if col_name[0]!="TOP" and col_name[0]!="MAX":
+                return Display_DB(NDB,col_name)
+            else:
+                if col_name[0]=="TOP":
+                    NDB=top(NDB,col_name[2],int(col_name[4]))
+                    for i in range(5):
+                        col_name.pop(0)
                     col_name.pop(0)
-                Display_DB(NDB,col_name)
-            
-            if col_name[0]=="max":
-                NDB=top(NDB,col_name[2],int(col_name[3]))
-                for i in range(5):
+                    return Display_DB(NDB,col_name)
+                
+                if col_name[0]=="MAX":
+                    NDB=top(NDB,col_name[2],int(col_name[3]))
+                    for i in range(5):
+                        col_name.pop(0)
                     col_name.pop(0)
-                Display_DB(NDB,col_name)
+                    return Display_DB(NDB,col_name)
     else:    
         pass
 
@@ -247,9 +377,10 @@ def top(db,cname,num):
     return new_db     
     
 def Rec_Query(Que,DB):
-    if Validate_Query(Que) == 0:
-        return 'Query Entered is Incorrect!!!!!'
-    return('\n\n>Result::\n')
+    mess=Validate_Query(Que)
+    if mess != '':
+        return ('Query Entered is Incorrect!!!!!'+mess)
+    return(Pro_Query(Que,DB))
     
 
 if __name__ == '__main__':

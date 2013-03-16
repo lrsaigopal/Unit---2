@@ -1,8 +1,4 @@
-'''
-Created on 16-Feb-2013
 
-@author: Sai Gopal
-'''
 import string
 import random
 
@@ -62,17 +58,23 @@ def Make_DB(a,line):
     return False
 
 def Display_DB(db,a=[]):
-    
-    for i in range(db.__len__()):
-        if a.__len__()!=0:
+    c=[]
+    if a.__len__()!=0:
+        for i in range(db.__len__()):
             for j in range(a.__len__()):
-                print a[j],":",db[i][a[j]]
-            print "---------------------------------","\n","THE COMPANY NUMBER:-\t",i+1,"\n"
-        else:
-            e=["Company_Name","Ticker_Symbol","Eps","Revenue","S&M_Expenses","Service_Expenses","R&D_Expenses","Tax","Quarter","Year"] 
+                b=str(a[j])+":"+str(db[i][a[j]])+"\n"
+                c.append(b)
+            d="---------------------------------"+"\n"+"THE COMPANY NUMBER:-\t"+str(i+1)+"\n"
+            c.append(d)
+    else:
+        e=["Company_Name","Ticker_Symbol","Eps","Revenue","S&M_Expenses","Service_Expenses","R&D_Expenses","Tax","Quarter","Year"]
+        for i in range(db.__len__()):
             for j in range(e.__len__()):
-                print e[j],":",db[i][e[j]]
-            print "---------------------------------","\n","THE COMPANY NUMBER:-\t",i+1,"\n"
+                b=str(e[j])+":"+str(db[i][e[j]])+"\n"
+            d="---------------------------------"+"\n"+"THE COMPANY NUMBER:-\t"+str(i+1)+"\n"
+            c.append(d)
+    return c
+
 
 def Remove_From_DB(db,a):
     for j in a:

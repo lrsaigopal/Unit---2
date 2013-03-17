@@ -17,7 +17,7 @@ Supported Queries Formats :
 
 1)SELECT Company_Name FROM DB WHERE Operating_Margin_Percentage > 20 AND Revenue > 6000000000 AND Quarter = Q1
 
-2)SELECT TOP  ( Revenue , 3 )  Company_Name FROM DB WHERE Year = 1954 #fail
+2)SELECT TOP  ( Revenue , 3 )  Company_Name FROM DB WHERE Year = 1954 
 
 3)SELECT Company_Name , Eps FROM DB WHERE Year = 1995
 

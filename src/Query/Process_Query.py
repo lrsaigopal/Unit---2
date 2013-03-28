@@ -354,17 +354,21 @@ def Pro_Query(Que, DB):
                 return Display_DB(NDB,col_name)
             else:
                 if col_name[0]=="TOP":
-                    NDB=top(NDB,col_name[2],int(col_name[4]))
+                    NDB=top(NDB,col_name[3],int(col_name[4]))
                     for i in range(5):
                         col_name.pop(0)
+                    col_name.pop(0)
                     col_name.pop(0)
                     return Display_DB(NDB,col_name)
                 
                 if col_name[0]=="MAX":
+                    print 'sai',col_name
+
                     NDB=top(NDB,col_name[2],int(col_name[3]))
                     for i in range(5):
                         col_name.pop(0)
                     col_name.pop(0)
+                    #col_name.pop(0)
                     return Display_DB(NDB,col_name)
     else:    
         pass

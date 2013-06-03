@@ -1,6 +1,6 @@
 import socket,sys,exceptions
 
-TCP_IP = = raw_input('\nEnter Server IP::')
+TCP_IP = raw_input('\nEnter Server IP::')
 TCP_PORT = 5005
 BUFFER_SIZE = 1024
 Conn=False

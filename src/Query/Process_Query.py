@@ -40,7 +40,7 @@ def val_qry(a):#validation begins from here
         return 0
     return e
 
-def numand(a):
+def numand(a):#check for number of ands and its typecasting
     global sting
     n=len(a)
     x=0
@@ -69,7 +69,7 @@ def numand(a):
         
         return b,1
             
-def chck_where(a,b):  
+def chck_where(a,b):  #check args of where
             global sting          
             x=0
             z=0
@@ -86,7 +86,7 @@ def chck_where(a,b):
             return 1
         
         
-def chk_args2(a):
+def chk_args2(a):#check argument from a given argument list
     global sting
     n=len(a)
     x=0
@@ -283,7 +283,7 @@ def Validate_Query(Que):
         return ''
     else :
         return sting
-def Pro_Query(Que, DB):
+def Pro_Query(Que, DB):#begin processing query
     NDB=copy.deepcopy(DB)
     NDB=Call_All(NDB)
     temp = Que.split(' ')

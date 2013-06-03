@@ -13,9 +13,9 @@ DB=Create_Rand_DB("test.txt",500)
 TCP_IP = '127.0.0.1'
 TCP_PORT = 5005
 BUFFER_SIZE = 4096
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#create a socket
 try:
-    s.bind((TCP_IP, TCP_PORT))
+    s.bind((TCP_IP, TCP_PORT))#bind socket to protocol 
 except:
     print 'Port Already In Use!!!!!!Exiting'
     exit(1)
@@ -29,8 +29,8 @@ f =open(logfil,'w',0)
 f.write('\nServer Up At IP::'+TCP_IP+' And At Port::'+str(TCP_PORT)+' At '+str(now)+'\n')
 
 class ServeClients(threading.Thread):
-        lock = Lock()
-        def __init__(self,con,addr):
+        lock = Lock()#on connecting lock so that only 1 client at a time to ensure fast entry fast exit
+        def __init__(self,con,addr):#create connections
             self.addr=addr
             self.conn=con
             threading.Thread.__init__(self)

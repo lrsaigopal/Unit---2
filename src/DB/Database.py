@@ -2,10 +2,10 @@
 import string
 import random
 
-def Rand_Gen(size, chars):
+def Rand_Gen(size, chars):#create random generated names or numbers
     return ''.join(random.choice(chars) for x in range(size))
 
-def Create_Rand_DB(l='',a=0):
+def Create_Rand_DB(l='',a=0):#create a database with all random values in it
         if l.__eq__(''):
             print"Enter file name with the path if in a different file:\n" 
             l=raw_input()
@@ -36,7 +36,7 @@ def Create_Rand_DB(l='',a=0):
         f.close()
         return Read_Database(l)
         
-def Read_Database(l):
+def Read_Database(l):#read a database (if it exists)
         db=[]
         f=open(l, 'r')
         a={}
@@ -50,14 +50,14 @@ def Read_Database(l):
         f.close()
         return db
 
-def Make_DB(a,line):
+def Make_DB(a,line):#make the temp created database permanent
     w=line.split()
     if len(w)==1:#means reached ------- line or end of a company
         return True#end of a company
     a[w[0]]=w[2]
     return False
 
-def Display_DB(db,a=[]):
+def Display_DB(db,a=[]):#displays the database in a nice orderly manner
     c=[]
     if a.__len__()!=0:
         for i in range(db.__len__()):
@@ -76,7 +76,7 @@ def Display_DB(db,a=[]):
     return c
 
 
-def Remove_From_DB(db,a):
+def Remove_From_DB(db,a):#remove the enteries from database
     for j in a:
         e=["Company_Name"]
         for i in range(db.__len__()):
@@ -85,11 +85,11 @@ def Remove_From_DB(db,a):
                 break
     return db
 
-def Sort_DB(db,b):
+def Sort_DB(db,b):#sort db wrt a particular key
     db = sorted(db, key=lambda k: k[b])
     return db
 
-def Total_Expenses(db):
+def Total_Expenses(db):#calculate total expenses
     a="Total_Expenses"
     e=["S&M_Expenses","Service_Expenses","R&D_Expenses"]
     for i in range(db.__len__()):
@@ -99,7 +99,7 @@ def Total_Expenses(db):
         db[i][a]=str(b+c+d)
     return db
 
-def Operating_Margin(db):
+def Operating_Margin(db):#calculate operating margin
     a="Operating_Margin"
     e=["Total_Expenses","Revenue"]
     for i in range(db.__len__()):
@@ -108,7 +108,7 @@ def Operating_Margin(db):
         db[i][a]=str(c-b)
     return db
 
-def Operating_Margin_Percentage(db):
+def Operating_Margin_Percentage(db):#calculate operating margin percentage
     a="Operating_Margin_Percentage"
     e=["Revenue","Operating_Margin"]
     for i in range(db.__len__()):
@@ -118,7 +118,7 @@ def Operating_Margin_Percentage(db):
         db[i][a]=str(c)
     return db
 
-def Ratio(db):
+def Ratio(db):#calculate r&d ratio
     a="R&D_Ratio"
     e=["Revenue","R&D_Expenses"]
     for i in range(db.__len__()):
@@ -127,7 +127,7 @@ def Ratio(db):
         db[i][a]=str(float(b)/c)
     return db
 
-def Growth_Rate(db):
+def Growth_Rate(db):#calculate growth rate
     a="Growth_Rate"
     e=["Operating_Margin","Revenue"]
     j=0
@@ -137,7 +137,7 @@ def Growth_Rate(db):
         db[i][a]=str(float(b)/c)
     return db
 
-def Call_All(db):
+def Call_All(db):#this function will call all the functions to calculate om , r&d ratio etc to complete the db enteries
     db=Total_Expenses(db)#sum of all expenses
     db=Operating_Margin(db)#difference of Total_Expenses and revenue
     db=Operating_Margin_Percentage(db)#Op % to Total_expenses

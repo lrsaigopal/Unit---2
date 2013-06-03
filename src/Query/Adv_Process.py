@@ -1,6 +1,6 @@
 
 import types
-def Get_Type(c):
+def Get_Type(c):#get type of operation to be performed for where clause
         if c == '>' :
                 return 1
         elif c == '<' :
